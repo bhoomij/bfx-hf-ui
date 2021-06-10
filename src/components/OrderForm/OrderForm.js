@@ -438,7 +438,10 @@ OrderForm.propTypes = {
     PropTypes.string, PropTypes.bool, PropTypes.object,
   ])).isRequired,
   activeMarket: PropTypes.objectOf(PropTypes.oneOfType([
-    PropTypes.array, PropTypes.string, PropTypes.number,
+    PropTypes.array,
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool,
   ])).isRequired,
   apiClientState: PropTypes.number.isRequired,
   apiCredentials: PropTypes.objectOf(PropTypes.bool).isRequired,
