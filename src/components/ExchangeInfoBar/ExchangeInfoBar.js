@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { TickerList, Ticker } from '@ufx-ui/core'
+
 import Panel from '../../ui/Panel'
+import { tickerDataMapping, rowMapping } from './ExchangeInforBar.constants'
 
 import './style.css'
 
@@ -28,7 +30,6 @@ const ExchangeInfoBar = ({
     const newMarket = markets.find(market => market.uiID === uiID)
     onChangeMarket(newMarket, activeMarket)
   }
-
   const {
     low,
     high,
@@ -66,6 +67,7 @@ const ExchangeInfoBar = ({
               isPerp,
               perpUI: isPerp ? uiID : null,
             }}
+            dataMapping={tickerDataMapping}
             className='hfui-exchangeinfobar__ticker'
           />
           <TickerList
@@ -76,6 +78,7 @@ const ExchangeInfoBar = ({
             setShowOnlyFavs={setShowingFavorites}
             onRowClick={onChangeMarketHandler}
             className='hfui-exchangeinfobar__tickerlist'
+            rowMapping={rowMapping}
           />
         </div>
       </div>
