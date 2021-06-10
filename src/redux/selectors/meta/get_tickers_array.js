@@ -12,7 +12,7 @@ const getTickersArray = createSelector([tickersSelector, state => state], (ticke
   const markets = _get(state, `${marketsPath}.markets`, [])
   const fullTickersData = _reduce(markets, (acc, market) => {
     const {
-      wsID, base, quote, uiID, ccyLabels,
+      wsID, base, quote, uiID, ccyLabels, isPerp,
     } = market
     const newTickerObject = {
       id: uiID,
@@ -22,6 +22,8 @@ const getTickersArray = createSelector([tickersSelector, state => state], (ticke
       lastPrice: _get(tickers, `${wsID}.lastPrice`, 0),
       volume: _get(tickers, `${wsID}.volume`, 0),
       ccyLabels,
+      isPerp,
+      perpUI: isPerp ? uiID : null,
     }
     acc.push(newTickerObject)
     return acc
