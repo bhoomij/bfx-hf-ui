@@ -5,17 +5,17 @@ import _find from 'lodash/find'
 import _omitBy from 'lodash/omitBy'
 import _isNil from 'lodash/isNil'
 
-import RenderHistoricalReport from './reports/HistoricalReport'
-import RenderHistoricalForm from './forms/HistoricalForm'
+// import RenderHistoricalReport from './reports/HistoricalReport'
+// import RenderHistoricalForm from './forms/HistoricalForm'
 
 import './style.css'
 
 const backtestMethods = [
-  {
-    type: 'Historical',
-    form: RenderHistoricalForm,
-    renderReport: RenderHistoricalReport,
-  },
+  // {
+  //   type: 'Historical',
+  //   form: RenderHistoricalForm,
+  //   renderReport: RenderHistoricalReport,
+  // },
   // {
   //   type: 'Live',
   //   form: RenderLiveForm,

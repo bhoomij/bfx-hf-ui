@@ -122,6 +122,8 @@ function build(previousFileSizes) {
         warnings: messages.warnings,
       })
     })
+    // TODO:
+    // compiler.close()
   })
 }
 

@@ -5,7 +5,7 @@ import HFIcon from '../../ui/HFIcon'
 import AuthenticationInitForm from './AuthenticationInitForm'
 import AuthenticationUnlockForm from './AuthenticationUnlockForm'
 import AuthenticationConnectingForm from './AuthenticationConnectingForm'
-import { version } from '../../../package.json'
+import pkg from '../../../package.json'
 
 import './style.css'
 
@@ -26,7 +26,7 @@ const Authentication = ({
             <h6>Crafted by Bitfinex</h6>
             <p>
               v
-              {version}
+              {pkg.version}
             </p>
           </div>
         </div>
