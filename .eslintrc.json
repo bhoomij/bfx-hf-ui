@@ -34,7 +34,8 @@
     "react/prop-types": "warn",
     "react/state-in-constructor": "off",
     "react/static-property-placement": "off",
-    "semi": [ "warn", "never" ]
+    "semi": [ "warn", "never" ],
+    "func-names": "off"
   },
   "settings": {
     "import/resolver": {
