@@ -37,14 +37,14 @@ jobs:
       - name: Install
         run: npm install
 
-      - name: Run Lint Check
-        run: npm run lint
-
       - name: Run Build Check
         run: npm run build
 
-      #- name: Run dist-win-unpruned Check
-      #  run: npm run dist-win-unpruned
+      - name: Run Lint Check
+        run: npm run lint
+
+      - name: Run dist-win-unpruned Check
+        run: npm run dist-win-unpruned
 
       - name: Run dist-mac Check
         run: npm run dist-mac
