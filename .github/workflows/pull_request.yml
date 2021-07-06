@@ -34,23 +34,20 @@ jobs:
       - name: Install
         run: npm install
 
-      - name: CI print
-        run: echo "CI= $CI flag"
+      - name: Run Lint Check
+        run: npm run lint
 
       - name: Run Build Check
         run: npm run build
 
-      - name: Run dist-win Check
-        run: npm run dist-win
+      #- name: Run dist-win Check
+      #  run: npm run dist-win
 
       - name: Run dist-mac Check
         run: npm run dist-mac
 
       - name: Run dist-linux Check
         run: npm run dist-linux
-
-      - name: Run Lint Check
-        run: npm run lint
 
       - name: Annotate Checks
         uses: agyemanjp/ci-checks-action@2.0.3
