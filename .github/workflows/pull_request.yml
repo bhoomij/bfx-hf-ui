@@ -29,7 +29,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install
-        run: npm run install
+        run: npm install
 
       - name: Run Build Check
         run: npm run build
