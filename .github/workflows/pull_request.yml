@@ -40,8 +40,8 @@ jobs:
       - name: Run Build Check
         run: npm run build
 
-      #- name: Run dist-win Check
-      #  run: npm run dist-win
+      - name: Run dist-win-unpruned Check
+        run: npm run dist-win-unpruned
 
       - name: Run dist-mac Check
         run: npm run dist-mac
@@ -52,7 +52,6 @@ jobs:
       - name: Annotate Checks
         uses: agyemanjp/ci-checks-action@2.0.3
         with:
-          ghToken: ${{ secrets.GITHUB_TOKEN }}
           checks: '[
             {
               "name": "build",
@@ -63,5 +62,5 @@ jobs:
               "name": "lint",
               "fileName": ".lint-report.json",
               "prChangesOnly": true
-            },
+            }
           ]'
