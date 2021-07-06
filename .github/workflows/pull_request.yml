@@ -12,6 +12,9 @@ on:
 jobs:
   checks:
     runs-on: ubuntu-latest
+    env:
+      # dont treat warning as error
+      CI: false
 
     strategy:
       matrix:
@@ -30,6 +33,9 @@ jobs:
 
       - name: Install
         run: npm install
+
+      - name: CI print
+        run: echo "CI= $CI flag"
 
       - name: Run Build Check
         run: npm run build
