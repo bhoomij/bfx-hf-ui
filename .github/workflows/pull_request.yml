@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: Install os packages
-        run: sudo port install coreutils
+        run:  brew install coreutils
 
       - name: Checkout Repository
         uses: actions/checkout@v2
