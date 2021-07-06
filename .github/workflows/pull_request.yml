@@ -21,6 +21,9 @@ jobs:
         node-version: [12.x]
 
     steps:
+      - name: Install os packages
+        run: sudo port install coreutils
+
       - name: Checkout Repository
         uses: actions/checkout@v2
         with:
@@ -40,8 +43,8 @@ jobs:
       - name: Run Build Check
         run: npm run build
 
-      - name: Run dist-win-unpruned Check
-        run: npm run dist-win-unpruned
+      #- name: Run dist-win-unpruned Check
+      #  run: npm run dist-win-unpruned
 
       - name: Run dist-mac Check
         run: npm run dist-mac
