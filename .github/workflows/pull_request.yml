@@ -37,6 +37,10 @@ jobs:
       - name: Pull bfx-hf-ui-core
         run: npm run fetch-core
 
+
+      - name: LS
+        run: ls
+
       - name: Install
         run: npm install
 
