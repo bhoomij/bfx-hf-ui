@@ -11,7 +11,7 @@ on:
 
 jobs:
   checks:
-    runs-on: macos-latest
+    runs-on: windows-latest
     env:
       # dont treat warning as error
       CI: false
