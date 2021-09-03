@@ -11,7 +11,7 @@ on:
 
 jobs:
   checks:
-    runs-on: windows-latest
+    runs-on: windows-10
     env:
       # dont treat warning as error
       CI: false
