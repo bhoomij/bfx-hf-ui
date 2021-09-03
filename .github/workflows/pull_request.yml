@@ -43,12 +43,6 @@ jobs:
       - name: Run dist-win-unpruned Check
         run: npm run dist-win-unpruned
 
-      - name: Run dist-mac Check
-        run: npm run dist-mac
-
-      - name: Run dist-linux Check
-        run: npm run dist-linux
-
       - name: Annotate Checks
         uses: agyemanjp/ci-checks-action@2.0.3
         with:
