@@ -21,9 +21,6 @@ jobs:
         node-version: [12.x]
 
     steps:
-      - name: Install sha256sum
-        run:  brew install coreutils
-
       - name: Checkout Repository
         uses: actions/checkout@v2
         with:
