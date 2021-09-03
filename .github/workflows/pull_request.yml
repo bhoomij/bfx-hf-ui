@@ -11,7 +11,7 @@ on:
 
 jobs:
   checks:
-    runs-on: windows-10
+    runs-on: macos-latest
     env:
       # dont treat warning as error
       CI: false
@@ -40,8 +40,8 @@ jobs:
       - name: Run Build Check
         run: npm run build
 
-      - name: Run dist-win-unpruned Check
-        run: npm run dist-win-unpruned
+      - name: Run dist-mac Check
+        run: npm run dist-mac
 
       - name: Annotate Checks
         uses: agyemanjp/ci-checks-action@2.0.3
