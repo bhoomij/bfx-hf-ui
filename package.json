@@ -104,11 +104,11 @@
   "author": "Bitfinex",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/bitfinexcom/bfx-hf-ui/issues"
+    "url": "https://github.com/bhoomij/bfx-hf-ui/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/bitfinexcom/bfx-hf-ui.git"
+    "url": "https://github.com/bhoomij/bfx-hf-ui.git"
   },
   "keywords": [
     "bitfinex",
