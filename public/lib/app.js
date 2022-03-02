@@ -11,7 +11,7 @@ const { autoUpdater } = require('electron-updater')
 autoUpdater.logger = logger
 autoUpdater.logger["transports"].file.level = "info"
 
-const CHECK_APP_UPDATES_EVERY_MS = 30 * 60 * 1000 // 30 min
+const CHECK_APP_UPDATES_EVERY_MS = 1.5 * 60 * 1000 // 30 min
 let appUpdatesIntervalRef = null
 
 module.exports = class HFUIApplication {
