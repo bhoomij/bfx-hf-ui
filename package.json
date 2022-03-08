@@ -1,9 +1,9 @@
 {
   "name": "bfx-hf-ui",
-  "version": "3.25.40",
+  "version": "3.28.2",
   "description": "Official bitfinex honey framework UI - for live trading and executing algorithmic orders/strategies",
   "engines": {
-    "node": ">=6"
+    "node": ">=14"
   },
   "main": "./build/electron.js",
   "homepage": "./",
@@ -21,13 +21,24 @@
     "directories": {
       "buildResources": "public"
     },
+    "mac": {
+      "icon": "build/icon.png",
+      "hardenedRuntime": true,
+      "artifactName": "${productName}-${version}-${arch}-${os}.${ext}",
+      "category": "public.app-category.productivity",
+      "target": [
+        "dir",
+        "zip"
+      ]
+    },
     "win": {
       "icon": "build/icon.png",
       "target": [
-        "nsis",
-        "zip"
+        "zip",
+        "nsis"
       ],
-      "publisherName": "Honey Framework UI"
+      "publisherName": "Honey Framework UI",
+      "verifyUpdateCodeSignature": false
     },
     "linux": {
       "icon": "build/icon.png",
@@ -36,8 +47,8 @@
       "maintainer": "<bitfinex.com>",
       "category": "Network",
       "target": [
-        "AppImage",
-        "zip"
+        "zip",
+        "AppImage"
       ]
     },
     "dmg": {
@@ -69,7 +80,10 @@
     "start-api-server": "cross-env ALGO_LOG=true ALGO_LOG_DIR=logs node scripts/start-api-server.js",
     "start-ds-bitfinex": "cross-env node scripts/start-ds-bitfinex.js",
     "start": "cd ./bfx-hf-ui-core && cross-env REACT_APP_DEV=1 REACT_APP_WSS_URL=ws://localhost:45000 REACT_APP_DS_URL=ws://localhost:23521 REACT_APP_UFX_API_URL=http://localhost:45001 REACT_APP_UFX_PUBLIC_API_URL=http://localhost:45001 REACT_APP_UFX_WSS_URL=wss://api-pub.bitfinex.com/ws/2 REACT_APP_IS_ELECTRON_APP=true node scripts/start.js",
-    "build": "cd bfx-hf-ui-core && cross-env GENERATE_SOURCEMAP=false npm run build-css && cross-env REACT_APP_WSS_URL=ws://localhost:45000 REACT_APP_DS_URL=ws://localhost:23521 REACT_APP_UFX_API_URL=http://localhost:45001 REACT_APP_UFX_PUBLIC_API_URL=http://localhost:45001 REACT_APP_UFX_WSS_URL=wss://api-pub.bitfinex.com/ws/2 REACT_APP_IS_ELECTRON_APP=true node scripts/build.js",
+    "dev-start": "cd ./bfx-hf-ui-core && cross-env REACT_APP_DEV=1 REACT_APP_WSS_URL=ws://localhost:45000 REACT_APP_DS_URL=ws://localhost:23521 REACT_APP_UFX_API_URL=http://localhost:45001 REACT_APP_UFX_PUBLIC_API_URL=http://localhost:45001 REACT_APP_UFX_WSS_URL=wss://api-pub.bitfinex.com/ws/2 REACT_APP_IS_ELECTRON_APP=true REACT_APP_SHOW_IN_DEVLOPMENT_MODULES=true node scripts/start.js",
+    "prebuild": "cd ./bfx-hf-ui-core && git checkout -- .",
+    "build": "npm run fetch-core && npm run update-core && npm run preinstall && cd bfx-hf-ui-core && cross-env GENERATE_SOURCEMAP=false npm run build-css && cross-env REACT_APP_WSS_URL=ws://localhost:45000 REACT_APP_DS_URL=ws://localhost:23521 REACT_APP_UFX_API_URL=http://localhost:45001 REACT_APP_UFX_PUBLIC_API_URL=http://localhost:45001 REACT_APP_UFX_WSS_URL=wss://api-pub.bitfinex.com/ws/2 REACT_APP_IS_ELECTRON_APP=true node scripts/build.js",
+    "dev-build": "npm run fetch-core && npm run update-core && npm run preinstall && cd bfx-hf-ui-core && cross-env GENERATE_SOURCEMAP=false npm run build-css && cross-env REACT_APP_WSS_URL=ws://localhost:45000 REACT_APP_DS_URL=ws://localhost:23521 REACT_APP_UFX_API_URL=http://localhost:45001 REACT_APP_UFX_PUBLIC_API_URL=http://localhost:45001 REACT_APP_UFX_WSS_URL=wss://api-pub.bitfinex.com/ws/2 REACT_APP_IS_ELECTRON_APP=true REACT_APP_SHOW_IN_DEVLOPMENT_MODULES=true node scripts/build.js",
     "update-core": "git submodule update --remote --merge",
     "fetch-core": "git submodule update --init --recursive",
     "postbuild": "run-script-os",
@@ -78,11 +92,10 @@
     "dev": "cross-env concurrently --kill-others \"npm run start-server\" \"npm run start\"",
     "electron-dev": "cross-env concurrently \"BROWSER=none npm run start-server\"  & electron .",
     "electron": "cross-env electron .",
-    "electrond": "cross-env electron --inspect=9229 --remote-debugging-port=9222 .",
+    "electron-debug": "cross-env electron --inspect=9229 --remote-debugging-port=9222 .",
     "pack": "cross-env ./node_modules/.bin/electron-builder --dir",
-    "deploy": "cross-env electron-builder build -lwm --publish always",
-    "build-all": "cross-env electron-builder build -m --publish never",
-    "deploy-m": "cross-env electron-builder build -m --publish never",
+    "deploy": "npm run build && cross-env electron-builder build -c.extraMetadata.main=build/electron.js -lwm --publish always",
+    "build-all": "npm run build && cross-env electron-builder build -c.extraMetadata.main=build/electron.js -lwm --publish never",
     "dist-win-unpruned": "cross-env electron-builder --win -c.extraMetadata.main=build/electron.js --publish never",
     "dist-win": "cross-env npm run dist-win-unpruned && npm run package-win",
     "dist-mac": "cross-env electron-packager --prune . --overwrite --platform=mas --arch=x64 --icon=build/icon.png --out=dist && npm run package-mac",
@@ -117,11 +130,11 @@
     "run-script-os": "^1.1.6"
   },
   "dependencies": {
-    "bfx-hf-data-server": "git+https://github.com/bitfinexcom/bfx-hf-data-server.git#v3.0.9",
+    "bfx-hf-data-server": "git+https://github.com/bitfinexcom/bfx-hf-data-server.git#v3.1.0",
     "bfx-hf-ext-plugin-bitfinex": "git+https://github.com/bitfinexcom/bfx-hf-ext-plugin-bitfinex.git#v1.0.11",
     "bfx-hf-models": "git+https://github.com/bitfinexcom/bfx-hf-models.git#v2.4.1",
     "bfx-hf-models-adapter-lowdb": "git+https://github.com/bitfinexcom/bfx-hf-models-adapter-lowdb.git#v1.0.5",
-    "bfx-hf-server": "git+https://github.com/bitfinexcom/bfx-hf-server.git#v4.18.1",
+    "bfx-hf-server": "git+https://github.com/bitfinexcom/bfx-hf-server.git#v4.20.5",
     "bfx-hf-util": "github:bitfinexcom/bfx-hf-util#v1.0.12",
     "concurrently": "^6.3.0",
     "cross-env": "^7.0.2",

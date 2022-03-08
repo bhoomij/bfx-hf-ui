@@ -26,8 +26,7 @@ module.exports = class HFUIApplication {
       icon: path.resolve(__dirname, '../icon.png'),
       show: true,
       webPreferences: {
-        nodeIntegration: true,
-        contextIsolation: false,
+        preload: path.join(__dirname, 'preload.js'),
       },
     })
 
@@ -86,8 +85,9 @@ module.exports = class HFUIApplication {
     this.mainWindow.webContents.on('new-window', this.handleURLRedirect)
 
     ipcMain.on('app-closed', () => {
-      // logger.info('app-closed: ref: ', appUpdatesIntervalRef);
-      clearInterval(appUpdatesIntervalRef)
+      if(appUpdatesIntervalRef) {
+        clearInterval(appUpdatesIntervalRef)
+      }
       this.mainWindow.removeAllListeners('close')
       this.mainWindow.close()
     })
@@ -98,17 +98,16 @@ module.exports = class HFUIApplication {
     });
 
     ipcMain.on('clear_app_update_timer', () => {
-      logger.info('clear_app_update_timer: ');
-      clearInterval(appUpdatesIntervalRef)
+      if(appUpdatesIntervalRef) {
+        clearInterval(appUpdatesIntervalRef)
+      }
     });
 
     autoUpdater.on('update-available', () => {
-      logger.info('update-available: ');
       this.mainWindow.webContents.send('update_available');
     });
 
     autoUpdater.on('update-downloaded', () => {
-      logger.info('update-downloaded: ');
       this.mainWindow.webContents.send('update_downloaded');
     });
   }
