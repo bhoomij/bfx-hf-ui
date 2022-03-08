@@ -4,7 +4,7 @@ const {
   BrowserWindow, protocol, Menu, shell, ipcMain,
 } = require('electron') // eslint-disable-line
 const { autoUpdater } = require('electron-updater')
-const logger = require("electron-log")
+const logger = require('electron-log')
 const enforceMacOSAppLocation = require(
   '../../scripts/enforce-macos-app-location'
 )
