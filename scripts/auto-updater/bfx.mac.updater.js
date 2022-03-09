@@ -93,15 +93,15 @@ class BfxMacUpdater extends MacUpdater {
   async asyncQuitAndInstall (isSilent, isForceRunAfter) {
     this._logger.info('Install on explicit quitAndInstall')
 
-    // const isInstalled = await this.install(
-    //   isSilent,
-    //   isSilent
-    //     ? isForceRunAfter
-    //     : true
-    // )
     const isInstalled = await this.install(
-     true, true
+      isSilent,
+      isSilent
+        ? isForceRunAfter
+        : true
     )
+    // const isInstalled = await this.install(
+    //  true, true
+    // )
 
     if (isInstalled) {
       setImmediate(() => this.app.quit())
