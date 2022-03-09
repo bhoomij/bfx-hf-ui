@@ -17,9 +17,11 @@ const {
 } = require('../../scripts/change-loading-win-visibility-state')
 // const {enforceMacOSAppLocation, is} = require('electron-util');
 
-const autoUpdater = process.platform === 'darwin' ? BfxMacUpdater : _autoUpdater
+let autoUpdater = _autoUpdater
 
 if(process.platform === 'darwin') {
+  autoUpdater = new BfxMacUpdater()
+  console.log('if autoUpdater: ', autoUpdater);
   autoUpdater.addInstallingUpdateEventHandler(() => {
     return showLoadingWindow({
       description: 'Updating...',
