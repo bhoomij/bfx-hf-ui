@@ -19,6 +19,15 @@ const {
 
 const autoUpdater = process.platform === 'darwin' ? BfxMacUpdater : _autoUpdater
 
+if(process.platform === 'darwin') {
+  autoUpdater.addInstallingUpdateEventHandler(() => {
+    return showLoadingWindow({
+      description: 'Updating...',
+      isRequiredToCloseAllWins: true
+    })
+  })
+}
+
 autoUpdater.logger = logger
 autoUpdater.logger["transports"].file.level = "info"
 logger.log('process.platform: ', process.platform);
