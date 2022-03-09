@@ -8,6 +8,10 @@ const logger = require('electron-log')
 const enforceMacOSAppLocation = require(
   '../../scripts/enforce-macos-app-location'
 )
+const {
+  showLoadingWindow,
+  hideLoadingWindow,
+} = require('../../scripts/change-loading-win-visibility-state')
 // const {enforceMacOSAppLocation, is} = require('electron-util');
 
 autoUpdater.logger = logger
@@ -113,16 +117,16 @@ module.exports = class HFUIApplication {
 
     autoUpdater.on('error', async (err) => {
       try {
-        logger.log('err: ', err)
+        logger.log('err: 1: ', err)
         // Skip error when can't get code signature on mac
         if (/Could not get code signature/gi.test(err.toString())) {
           logger.log('autoUpdater error: if return')
           return
         }
 
-        // isProgressToastEnabled = false
+        isProgressToastEnabled = false
 
-        // await hideLoadingWindow({ isRequiredToShowMainWin: false })
+        await hideLoadingWindow({ isRequiredToShowMainWin: false })
 
         // _switchMenuItem({
         //   isCheckMenuItemDisabled: false,
@@ -134,6 +138,7 @@ module.exports = class HFUIApplication {
         //   timer: 60000
         // })
       } catch (err) {
+        console.log('err: again: ', err);
         console.error(err)
       }
     })
