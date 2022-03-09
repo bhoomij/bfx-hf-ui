@@ -3,10 +3,13 @@ const path = require('path')
 const {
   BrowserWindow, protocol, Menu, shell, ipcMain,
 } = require('electron') // eslint-disable-line
-const { autoUpdater } = require('electron-updater')
+const { autoUpdater: _autoUpdater } = require('electron-updater')
 const logger = require('electron-log')
 const enforceMacOSAppLocation = require(
   '../../scripts/enforce-macos-app-location'
+)
+const BfxMacUpdater = require(
+  '../../scripts/auto-updater/bfx.mac.updater'
 )
 const {
   showLoadingWindow,
@@ -14,8 +17,11 @@ const {
 } = require('../../scripts/change-loading-win-visibility-state')
 // const {enforceMacOSAppLocation, is} = require('electron-util');
 
+const autoUpdater = process.platform === 'darwin' ? BfxMacUpdater : _autoUpdater
+
 autoUpdater.logger = logger
 autoUpdater.logger["transports"].file.level = "info"
+logger.log('process.platform: ', process.platform);
 
 const appMenuTemplate = require('./app_menu_template')
 
@@ -112,6 +118,9 @@ module.exports = class HFUIApplication {
     });
 
     autoUpdater.on('update-downloaded', () => {
+      if (autoUpdater instanceof BfxMacUpdater) {
+        autoUpdater.setDownloadedFilePath(downloadedFile)
+      }
       this.mainWindow.webContents.send('update_downloaded');
     });
 
