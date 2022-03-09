@@ -110,6 +110,33 @@ module.exports = class HFUIApplication {
     autoUpdater.on('update-downloaded', () => {
       this.mainWindow.webContents.send('update_downloaded');
     });
+
+    autoUpdater.on('error', async (err) => {
+      try {
+        logger.log('err: ', err)
+        // Skip error when can't get code signature on mac
+        if (/Could not get code signature/gi.test(err.toString())) {
+          logger.log('autoUpdater error: if return')
+          return
+        }
+
+        // isProgressToastEnabled = false
+
+        // await hideLoadingWindow({ isRequiredToShowMainWin: false })
+
+        // _switchMenuItem({
+        //   isCheckMenuItemDisabled: false,
+        //   isInstallMenuItemVisible: false
+        // })
+        // await _fireToast({
+        //   title: 'Application update failed',
+        //   type: 'error',
+        //   timer: 60000
+        // })
+      } catch (err) {
+        console.error(err)
+      }
+    })
   }
 
   handleURLRedirect(event, url) {
