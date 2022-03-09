@@ -136,9 +136,9 @@ module.exports = class HFUIApplication {
       logger.log('update-downloaded downloadedFile: ', downloadedFile);
       if (autoUpdater instanceof BfxMacUpdater) {
         autoUpdater.setDownloadedFilePath(downloadedFile)
-      } else {
-        this.mainWindow.webContents.send('update_downloaded');
       }
+
+      this.mainWindow.webContents.send('update_downloaded');
     });
 
     autoUpdater.on('error', async (err) => {
