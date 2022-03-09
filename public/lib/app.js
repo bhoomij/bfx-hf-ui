@@ -128,7 +128,12 @@ module.exports = class HFUIApplication {
       this.mainWindow.webContents.send('update_available');
     });
 
-    autoUpdater.on('update-downloaded', () => {
+    autoUpdater.on('update-downloaded', (info) => {
+      const {
+        version,
+        downloadedFile
+      } = { ...info }
+      logger.log('update-downloaded downloadedFile: ', downloadedFile);
       if (autoUpdater instanceof BfxMacUpdater) {
         autoUpdater.setDownloadedFilePath(downloadedFile)
       }
