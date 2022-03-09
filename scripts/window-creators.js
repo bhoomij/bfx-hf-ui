@@ -4,6 +4,7 @@ const electron = require('electron')
 const serve = require('electron-serve')
 const path = require('path')
 const url = require('url')
+const logger = require('electron-log')
 
 const { BrowserWindow } = electron
 const isDevEnv = process.env.NODE_ENV === 'development'
@@ -22,7 +23,7 @@ const {
 // const publicDir = path.join(__dirname, '../bfx-report-ui/build')
 // const loadURL = serve({ directory: publicDir })
 
-console.log('__dirname: __dirname: ', __dirname);
+logger.log('__dirname: __dirname: ', __dirname);
 const pathToLayouts = path.join(__dirname, 'layouts')
 const pathToLayoutAppInit = path.join('', 'app_init.html')
 
@@ -71,7 +72,7 @@ const _createWindow = async (
 
   wins[winName] = new BrowserWindow(_props)
 
-  console.log('pathname: ', pathname);
+  logger.log('pathname: ', pathname);
   const startUrl = pathname
   ? url.format({
     pathname,
@@ -79,9 +80,9 @@ const _createWindow = async (
     slashes: true
   })
   : 'app://-'
-  console.log('startUrl: ', startUrl);
+  logger.log('startUrl: ', startUrl);
 
-    console.log('pathname: 111: ', pathname);
+    logger.log('pathname: 111: ', pathname);
   if (!pathname) {
     await loadURL(wins[winName])
   }
@@ -106,7 +107,7 @@ const _createWindow = async (
     win: wins[winName]
   }
 
-  console.log('pathname: ', pathname);
+  logger.log('pathname: ', pathname);
   if (!pathname) {
     await createLoadingWindow()
 
@@ -196,14 +197,14 @@ const createLoadingWindow = async () => {
     !wins.loadingWindow.isDestroyed() &&
     !wins.loadingWindow.isVisible()
   ) {
-    console.log('showLoadingWindow: if');
+    logger.log('showLoadingWindow: if');
     await showLoadingWindow()
 
     return {}
   }
-  console.log('showLoadingWindow: else');
+  logger.log('showLoadingWindow: else');
 
-  console.log('pathToLayoutAppInit: ', pathToLayoutAppInit);
+  logger.log('pathToLayoutAppInit: ', pathToLayoutAppInit);
   const winProps = await _createChildWindow(
     pathToLayoutAppInit,
     'loadingWindow',
