@@ -46,10 +46,12 @@ class BfxMacUpdater extends MacUpdater {
       this._logger.info(`Install: isSilent: ${isSilent}, isForceRunAfter: ${isForceRunAfter}`)
 
       if (!isSilent) {
+        this._logger.log('if !isSilent: with dispatchInstallingUpdate');
         await this.dispatchInstallingUpdate()
       }
 
       const downloadedFilePath = this.getDownloadedFilePath()
+      this._logger.info('downloadedFilePath: ', downloadedFilePath);
 
       const root = path.join(appDir, '../../..')
       const dist = path.join(root, '..')
@@ -91,11 +93,14 @@ class BfxMacUpdater extends MacUpdater {
   async asyncQuitAndInstall (isSilent, isForceRunAfter) {
     this._logger.info('Install on explicit quitAndInstall')
 
+    // const isInstalled = await this.install(
+    //   isSilent,
+    //   isSilent
+    //     ? isForceRunAfter
+    //     : true
+    // )
     const isInstalled = await this.install(
-      isSilent,
-      isSilent
-        ? isForceRunAfter
-        : true
+     true, true
     )
 
     if (isInstalled) {
