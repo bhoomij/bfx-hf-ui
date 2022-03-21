@@ -20,6 +20,7 @@ const _closeAllWindows = () => {
 }
 
 const _setParentWindow = (noParent) => {
+  logger.log('_setParentWindow: ', noParent);
   if (wins.loadingWindow.isFocused()) {
     return
   }
@@ -147,6 +148,7 @@ const showLoadingWindow = async (opts = {}) => {
   } = { ...opts }
 
   if (isRequiredToCloseAllWins) {
+    logger.log('if: 111');
     _closeAllWindows()
   }
   if (
@@ -154,6 +156,7 @@ const showLoadingWindow = async (opts = {}) => {
     || typeof wins.loadingWindow !== 'object'
     || wins.loadingWindow.isDestroyed()
   ) {
+    logger.log('if: 222');
     await require('./window-creators')
       .createLoadingWindow()
   }
@@ -161,9 +164,11 @@ const showLoadingWindow = async (opts = {}) => {
   _setParentWindow(isRequiredToCloseAllWins || noParent)
 
   if (!isNotRunProgressLoaderRequired) {
+    console.log('if: 333');
     _runProgressLoader({ isIndeterminateMode })
   }
 
+  logger.log('_setLoadingDescription: ', _setLoadingDescription);
   await _setLoadingDescription(
     wins.loadingWindow,
     description,
