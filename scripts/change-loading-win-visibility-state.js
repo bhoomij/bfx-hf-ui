@@ -21,6 +21,7 @@ const _closeAllWindows = () => {
 
 const _setParentWindow = (noParent) => {
   logger.log('_setParentWindow: ', noParent);
+  logger.log('wins.loadingWindow.isFocused(): ', wins.loadingWindow.isFocused());
   if (wins.loadingWindow.isFocused()) {
     return
   }
@@ -119,7 +120,7 @@ const _setLoadingDescription = (win, description) => {
 
       ipcMain.once('loading:description-ready', (event, err) => {
         if (err) {
-          console.error(err)
+          logger.error(err)
         }
 
         resolve()
@@ -130,7 +131,7 @@ const _setLoadingDescription = (win, description) => {
         description,
       )
     } catch (err) {
-      console.error(err)
+      logger.error(err)
 
       resolve()
     }
@@ -151,6 +152,8 @@ const showLoadingWindow = async (opts = {}) => {
     logger.log('if: 111');
     _closeAllWindows()
   }
+  logger.log('wins.loadingWindow: ', wins.loadingWindow);
+  logger.log('wins.loadingWindow.isDestroyed(): ', wins.loadingWindow.isDestroyed());
   if (
     !wins.loadingWindow
     || typeof wins.loadingWindow !== 'object'
@@ -164,8 +167,11 @@ const showLoadingWindow = async (opts = {}) => {
   _setParentWindow(isRequiredToCloseAllWins || noParent)
 
   if (!isNotRunProgressLoaderRequired) {
-    console.log('if: 333');
+    logger.log('if: 333');
     _runProgressLoader({ isIndeterminateMode })
+  } else {
+    logger.log('if: 333');
+
   }
 
   logger.log('_setLoadingDescription: ', _setLoadingDescription);
