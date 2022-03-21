@@ -128,6 +128,7 @@ class BfxMacUpdater extends MacUpdater {
   async dispatchInstallingUpdate () {
     this.emit(this.EVENT_INSTALLING_UPDATE)
 
+    this._logger.info('this.installingUpdateEventHandlers: ', this.installingUpdateEventHandlers);
     for (const handler of this.installingUpdateEventHandlers) {
       if (typeof handler !== 'function') {
         return
