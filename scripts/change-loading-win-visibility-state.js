@@ -1,4 +1,5 @@
 const { BrowserWindow, ipcMain } = require('electron')
+const logger = require('electron-log')
 
 const wins = require('./windows')
 const {
@@ -136,6 +137,7 @@ const _setLoadingDescription = (win, description) => {
 }
 
 const showLoadingWindow = async (opts = {}) => {
+  logger.log('showLoadingWindow: ', opts);
   const {
     description = '',
     isRequiredToCloseAllWins = false,
@@ -167,14 +169,14 @@ const showLoadingWindow = async (opts = {}) => {
     description,
   )
 
-  console.log('wins.loadingWindow.isVisible(): ', wins.loadingWindow.isVisible());
+  logger.log('wins.loadingWindow.isVisible(): ', wins.loadingWindow.isVisible());
   if (wins.loadingWindow.isVisible()) {
     return
   }
 
   centerWindow(wins.loadingWindow)
 
-  console.log('showWindow: last');
+  logger.log('showWindow: last');
   return showWindow(wins.loadingWindow)
 }
 
