@@ -153,7 +153,7 @@ const showLoadingWindow = async (opts = {}) => {
     _closeAllWindows()
   }
   logger.log('wins.loadingWindow: ', wins.loadingWindow);
-  logger.log('wins.loadingWindow.isDestroyed(): ', wins.loadingWindow.isDestroyed());
+  logger.log('wins.loadingWindow.isDestroyed(): ', wins?.loadingWindow?.isDestroyed());
   if (
     !wins.loadingWindow
     || typeof wins.loadingWindow !== 'object'
