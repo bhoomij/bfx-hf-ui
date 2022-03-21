@@ -167,12 +167,14 @@ const showLoadingWindow = async (opts = {}) => {
     description,
   )
 
+  console.log('wins.loadingWindow.isVisible(): ', wins.loadingWindow.isVisible());
   if (wins.loadingWindow.isVisible()) {
     return
   }
 
   centerWindow(wins.loadingWindow)
 
+  console.log('showWindow: last');
   return showWindow(wins.loadingWindow)
 }
 

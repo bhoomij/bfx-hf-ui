@@ -45,10 +45,10 @@ class BfxMacUpdater extends MacUpdater {
 
       this._logger.info(`Install: isSilent: ${isSilent}, isForceRunAfter: ${isForceRunAfter}`)
 
-      // if (!isSilent) {
-      //   this._logger.log('if !isSilent: with dispatchInstallingUpdate');
-      //   await this.dispatchInstallingUpdate()
-      // }
+      if (!isSilent) {
+        this._logger.log('if !isSilent: with dispatchInstallingUpdate');
+        await this.dispatchInstallingUpdate()
+      }
 
       const downloadedFilePath = this.getDownloadedFilePath()
       this._logger.info('downloadedFilePath: ', downloadedFilePath);
