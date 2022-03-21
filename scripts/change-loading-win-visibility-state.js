@@ -161,7 +161,9 @@ const showLoadingWindow = async (opts = {}) => {
   ) {
     logger.log('if: 222');
     await require('./window-creators')
-      .createLoadingWindow()
+    .createLoadingWindow()
+  } else {
+    logger.log('else: 222');
   }
 
   _setParentWindow(isRequiredToCloseAllWins || noParent)
@@ -170,8 +172,7 @@ const showLoadingWindow = async (opts = {}) => {
     logger.log('if: 333');
     _runProgressLoader({ isIndeterminateMode })
   } else {
-    logger.log('if: 333');
-
+    logger.log('else: 333');
   }
 
   logger.log('_setLoadingDescription: ', _setLoadingDescription);
