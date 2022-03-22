@@ -119,6 +119,7 @@ const _setLoadingDescription = (win, description) => {
       }
 
       ipcMain.once('loading:description-ready', (event, err) => {
+        logger.log('ipcMain: got loading:description-ready');
         if (err) {
           logger.error(err)
         }
@@ -126,6 +127,8 @@ const _setLoadingDescription = (win, description) => {
         resolve()
       })
 
+      logger.log('win.webContents: ', win.webContents);
+      logger.log('win: ', win);
       win.webContents.send(
         'loading:description',
         description,
