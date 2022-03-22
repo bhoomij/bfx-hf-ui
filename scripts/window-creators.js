@@ -25,7 +25,7 @@ const loadURL = serve({ directory: publicDir })
 
 logger.log('__dirname: __dirname: ', __dirname);
 // const pathToLayouts = path.join(__dirname, 'layouts')
-const pathToLayoutAppInit = path.join(__dirname, 'app_init.html')
+const pathToLayoutAppInit = path.join('', 'app_init.html')
 
 const _createWindow = async (
   {
