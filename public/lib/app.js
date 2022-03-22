@@ -21,7 +21,7 @@ let autoUpdater = _autoUpdater
 
 if(process.platform === 'darwin') {
   autoUpdater = new BfxMacUpdater()
-  logger.log('if autoUpdater: ', autoUpdater);
+  logger.log('if autoUpdater: 222');
   autoUpdater.addInstallingUpdateEventHandler(() => {
     logger.log('addInstallingUpdateEventHandler logger: ')
     return showLoadingWindow({
