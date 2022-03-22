@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <!-- <link rel="shortcut icon" href="../../bfx-report-ui/build/favicon.ico"> -->
   <!-- <link href="../../bfx-report-ui/build/fonts/roboto.css" rel="stylesheet"> -->
-  <title>Bitfinex Reports</title>
+  <title>The Honey Framework</title>
   <style>
     html {
       height: 100%;
@@ -217,10 +217,12 @@
       }
     }, 2500)
 
-    const { ipcRenderer } = require('electron')
+    // const { ipcRenderer } = require('electron')
+    const logger = require('electron-log')
 
-    ipcRenderer.on('loading:description', (event, description) => {
+    window.electronService.addLoadingDescEventListener((event, description) => {
       try {
+        console.log('addLoadingDescEventListener: cb', description);
         if (typeof description !== 'string') {
           return
         }
@@ -231,11 +233,13 @@
           ? 'block'
           : 'none'
 
-        ipcRenderer.send('loading:description-ready')
+        window.electronService.sendLoadingDescReadyEvent('')
+        // ipcRenderer.send('loading:description-ready')
       } catch (err) {
         console.error(err)
 
-        ipcRenderer.send('loading:description-ready', err)
+        window.electronService.sendLoadingDescReadyEvent(err)
+        // ipcRenderer.send('loading:description-ready', err)
       }
     })
   })
