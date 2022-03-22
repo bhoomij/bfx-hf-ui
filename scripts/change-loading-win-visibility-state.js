@@ -169,6 +169,7 @@ const showLoadingWindow = async (opts = {}) => {
     logger.log('else: 222');
   }
 
+  logger.log('_setParentWindow here');
   _setParentWindow(isRequiredToCloseAllWins || noParent)
 
   if (!isNotRunProgressLoaderRequired) {

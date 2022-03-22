@@ -194,6 +194,7 @@ const _createChildWindow = async (
 // }
 
 const createLoadingWindow = async () => {
+  logger.log('createLoadingWindow: start');
   if (
     wins.loadingWindow &&
     typeof wins.loadingWindow === 'object' &&
