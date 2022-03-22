@@ -22,8 +22,12 @@
       "buildResources": "public"
     },
     "mac": {
+      "type": "development",
       "icon": "build/icon.png",
       "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mas.inherit.plist",
       "artifactName": "${productName}-${version}-${arch}-${os}.${ext}",
       "category": "public.app-category.productivity",
       "target": [
