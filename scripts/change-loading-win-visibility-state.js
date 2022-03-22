@@ -175,7 +175,7 @@ const showLoadingWindow = async (opts = {}) => {
     logger.log('else: 333');
   }
 
-  logger.log('_setLoadingDescription: ', _setLoadingDescription);
+  logger.log('_setLoadingDescription: ', wins.loadingWindow);
   await _setLoadingDescription(
     wins.loadingWindow,
     description,
@@ -196,6 +196,7 @@ const hideLoadingWindow = async (opts = {}) => {
   const {
     isRequiredToShowMainWin = false,
   } = { ...opts }
+  logger.log('hideLoadingWindow: ', opts);
 
   if (isRequiredToShowMainWin) {
     await showWindow(wins.mainWindow)

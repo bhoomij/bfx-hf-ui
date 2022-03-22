@@ -222,7 +222,7 @@
 
     window.electronService.addLoadingDescEventListener((event, description) => {
       try {
-        console.log('addLoadingDescEventListener: cb', description);
+        logger.log('addLoadingDescEventListener: cb', description);
         if (typeof description !== 'string') {
           return
         }
