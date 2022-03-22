@@ -127,8 +127,8 @@ const _setLoadingDescription = (win, description) => {
         resolve()
       })
 
-      logger.log('win.webContents: ', win.webContents);
-      logger.log('win: ', win);
+      // logger.log('win.webContents: ', win.webContents);
+      // logger.log('win: ', win);
       win.webContents.send(
         'loading:description',
         description,
