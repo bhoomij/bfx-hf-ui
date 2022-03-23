@@ -152,7 +152,7 @@ module.exports = class HFUIApplication {
           return
         }
 
-        isProgressToastEnabled = false
+        // isProgressToastEnabled = false
 
         await hideLoadingWindow({ isRequiredToShowMainWin: false })
 
