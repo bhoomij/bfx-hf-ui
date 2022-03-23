@@ -75,6 +75,8 @@ const _createWindow = async (
 
   wins[winName] = new BrowserWindow(_props)
 
+  wins[winName].webContents.openDevTools()
+
   logger.log('pathname: ', pathname);
   const startUrl = pathname
   ? url.format({
