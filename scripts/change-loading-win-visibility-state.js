@@ -141,7 +141,8 @@ const _setLoadingDescription = (win, description) => {
       //   'loading:description',
       //   description,
       // )
-      logger.log('win.webContents: before: 3 4', test);
+      logger.log('win.webContents: removed test ref error');
+      resolve()
     } catch (err) {
       logger.error(err)
 
