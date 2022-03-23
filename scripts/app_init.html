@@ -207,6 +207,8 @@
 </body>
 
 <script>
+  console.log('123 456')
+  try {
   const logger = require('electron-log')
 
   logger.info('script: window');
@@ -249,6 +251,9 @@
       }
     })
   })
+} catch (err) {
+  console.log('err: ', err)
+}
 </script>
 
 </html>
