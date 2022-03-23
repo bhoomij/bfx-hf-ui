@@ -116,7 +116,7 @@ module.exports = class HFUIApplication {
     })
 
     ipcMain.on('restart_app', () => {
-      logger.log('inside restart_app: ', restart_app);
+      logger.log('inside restart_app: ');
       autoUpdater.quitAndInstall();
       this.app.exit();
     });
