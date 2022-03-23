@@ -207,6 +207,7 @@
 </body>
 
 <script>
+  logger.log('script: window', !!window);
   window.addEventListener('load', () => {
     console.log('window: load: ', window);
     const rollers = document.getElementsByClassName('lds-roller')
