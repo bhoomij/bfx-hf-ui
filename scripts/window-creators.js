@@ -20,8 +20,8 @@ const {
   centerWindow
 } = require('./helpers/manage-window')
 
-const publicDir = path.join(__dirname, '../build')
-const loadURL = serve({ directory: publicDir })
+// const publicDir = path.join(__dirname, '../build')
+// const loadURL = serve({ directory: publicDir })
 
 logger.log('__dirname: __dirname: ', __dirname);
 // const pathToLayouts = path.join(__dirname, 'layouts')
@@ -215,10 +215,10 @@ const createLoadingWindow = async () => {
     {
       width: 350,
       height: 350,
-      // webPreferences: {
-      //   nodeIntegration: true,
-      //   contextIsolation: false
-      // }
+      webPreferences: {
+        nodeIntegration: true,
+        contextIsolation: false
+      }
     }
   )
 
