@@ -118,8 +118,9 @@ module.exports = class HFUIApplication {
 
     ipcMain.on('restart_app', () => {
       logger.log('inside restart_app: ');
-      autoUpdater.quitAndInstall();
-      this.app.exit();
+      // autoUpdater.quitAndInstall();
+      window.electronService.sendAppClosedEvent()
+      // this.app.exit();
     });
 
     ipcMain.on('clear_app_update_timer', () => {

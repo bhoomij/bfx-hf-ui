@@ -63,7 +63,7 @@ class BfxMacUpdater extends MacUpdater {
       this._logger.log('root: ', root);
       this._logger.log('dist: ', dist);
 
-      await fs.promises.rmdir(root, { recursive: true, force: true }, (...rest) => this._logger.log('rest: ', test))
+      await fs.promises.rmdir(root, { recursive: true, force: true }, (...rest) => this._logger.log('rest: ', rest))
 
       this._logger.log('after rmdir: ');
 
