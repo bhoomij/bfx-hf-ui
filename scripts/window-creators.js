@@ -67,9 +67,9 @@ const _createWindow = async (
     // icon: path.join(__dirname, '../build/icons/512x512.png'),
     backgroundColor: '#172d3e',
     show: false,
-    webPreferences: {
-      preload: path.join(__dirname, '../build/preload.js'),
-    },
+    // webPreferences: {
+    //   preload: path.join(__dirname, '../build/preload.js'),
+    // },
     ...props
   }
 
@@ -217,10 +217,10 @@ const createLoadingWindow = async () => {
     {
       width: 350,
       height: 350,
-      // webPreferences: {
-      //   nodeIntegration: true,
-      //   contextIsolation: false
-      // }
+      webPreferences: {
+        nodeIntegration: true,
+        contextIsolation: false
+      }
     }
   )
 
