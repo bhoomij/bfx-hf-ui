@@ -215,10 +215,10 @@ const createLoadingWindow = async () => {
     {
       width: 350,
       height: 350,
-      webPreferences: {
-        nodeIntegration: true,
-        contextIsolation: false
-      }
+      // webPreferences: {
+      //   nodeIntegration: true,
+      //   contextIsolation: false
+      // }
     }
   )
 

@@ -42,6 +42,7 @@ const CHECK_APP_UPDATES_EVERY_MS = 2 * 60 * 1000 // 30 min
 let appUpdatesIntervalRef = null
 module.exports = class HFUIApplication {
   static createWindow() {
+    logger.log('createWindow __dirname: ', __dirname);
     const win = new BrowserWindow({
       width: 1500,
       height: 850,
