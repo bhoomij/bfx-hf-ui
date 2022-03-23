@@ -11,6 +11,7 @@ const {
   SCRIPT_PATH_API_SERVER,
   LOCAL_STORE_CWD
 } = require('./constants')
+const logger = require('electron-log')
 // const enforceMacOSAppLocation = require(
 //   '../scripts/enforce-macos-app-location'
 // )
@@ -34,11 +35,13 @@ const childDSProcess = fork(path.resolve(SCRIPT_PATH_DS_BITFINEX), [], {
   ...SCRIPT_SPAWN_OPTS,
   stdio: [null, dsLogStream, dsLogStream, 'ipc'],
 })
+logger.log('childDSProcess: ', childDSProcess);
 
 const childAPIProcess = fork(path.resolve(SCRIPT_PATH_API_SERVER), [], {
   ...SCRIPT_SPAWN_OPTS,
   stdio: [null, apiLogStream, apiLogStream, 'ipc'],
 })
+logger.log('childAPIProcess: ', childAPIProcess);
 
 // await app.whenReady()
 // await enforceMacOSAppLocation()
