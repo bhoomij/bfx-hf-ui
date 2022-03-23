@@ -13,5 +13,7 @@ contextBridge.exposeInMainWorld(
         addAppUpdateDownloadedEventListener: (cb) => ipcRenderer.on('update_downloaded', cb),
         removeAppUpdateDownloadedEventListener: (cb) => ipcRenderer.removeListener('update_downloaded', cb),
         getAllEvents: () => ipcRenderer.eventNames(),
+        // addLoadingDescEventListener: (cb) => ipcRenderer.on('loading:description', cb),
+        // sendLoadingDescReadyEvent: (err) => ipcRenderer.send('loading:description-ready', err),
     }
 )

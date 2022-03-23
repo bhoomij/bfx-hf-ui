@@ -34,6 +34,7 @@ class BfxMacUpdater extends MacUpdater {
   }
 
   async install (isSilent, isForceRunAfter) {
+    this._logger.info('install: inside: ', isSilent, isForceRunAfter);
     try {
       if (this.quitAndInstallCalled) {
         this._logger.warn('Install call ignored: quitAndInstallCalled is set to true')
@@ -49,17 +50,22 @@ class BfxMacUpdater extends MacUpdater {
         this._logger.log('if !isSilent: with dispatchInstallingUpdate');
         await this.dispatchInstallingUpdate()
       }
+      this._logger.log('after dispatchInstallingUpdate: ')
 
       const downloadedFilePath = this.getDownloadedFilePath()
-      this._logger.info('downloadedFilePath: ', downloadedFilePath);
+      this._logger.info('downloadedFilePath: in install: ', downloadedFilePath);
 
       const root = path.join(appDir, '../../..')
       const dist = path.join(root, '..')
       const productName = 'The Honey Framework'
       const exec = path.join(root, 'Contents/MacOS/' + productName)
       this._logger.log('exec: ', exec);
+      this._logger.log('root: ', root);
+      this._logger.log('dist: ', dist);
 
-      await fs.promises.rmdir(root, { recursive: true })
+      await fs.promises.rmdir(root, { recursive: true, force: true }, (...rest) => this._logger.log('rest: ', rest))
+
+      this._logger.log('after rmdir: ');
 
       await extract(
         downloadedFilePath,
@@ -70,10 +76,13 @@ class BfxMacUpdater extends MacUpdater {
         }
       )
 
+      this._logger.log('after extract: ');
+
       if (!isForceRunAfter) {
+        console.log('if: end');
         return true
       }
-
+      this._logger.log('before spawn')
       spawn(exec, [], {
         detached: true,
         stdio: 'ignore',
@@ -81,10 +90,11 @@ class BfxMacUpdater extends MacUpdater {
           ...process.env
         }
       }).unref()
-
+      this._logger.log('after spawn')
       return true
     } catch (err) {
-      this.dispatchError(err)
+      // this.dispatchError(err)
+      this._logger.log('error catch: 2: ', err);
 
       return false
     }
@@ -99,6 +109,7 @@ class BfxMacUpdater extends MacUpdater {
         ? isForceRunAfter
         : true
     )
+    this._logger.info('after isInstalled: ', isInstalled)
     // const isInstalled = await this.install(
     //  true, true
     // )
@@ -114,20 +125,24 @@ class BfxMacUpdater extends MacUpdater {
 
   quitAndInstall (...args) {
     const downloadedFilePath = this.getDownloadedFilePath()
+    this._logger.info('quitAndInstall downloadedFilePath: ', downloadedFilePath);
 
     if (!fs.existsSync(downloadedFilePath)) {
       return
     }
     if (path.extname(downloadedFilePath) !== '.zip') {
+      this._logger.info('if: not zip', downloadedFilePath);
       return super.quitAndInstall(...args)
     }
 
+    this._logger.info('now calling asyncQuitAndInstall: ', args);
     return this.asyncQuitAndInstall(...args)
   }
 
   async dispatchInstallingUpdate () {
     this.emit(this.EVENT_INSTALLING_UPDATE)
 
+    this._logger.info('this.installingUpdateEventHandlers: ', this.installingUpdateEventHandlers);
     for (const handler of this.installingUpdateEventHandlers) {
       if (typeof handler !== 'function') {
         return

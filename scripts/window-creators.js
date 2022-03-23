@@ -20,11 +20,11 @@ const {
   centerWindow
 } = require('./helpers/manage-window')
 
-// const publicDir = path.join(__dirname, '../bfx-report-ui/build')
+// const publicDir = path.join(__dirname, '../build')
 // const loadURL = serve({ directory: publicDir })
 
 logger.log('__dirname: __dirname: ', __dirname);
-const pathToLayouts = path.join(__dirname, 'layouts')
+// const pathToLayouts = path.join(__dirname, 'layouts')
 const pathToLayoutAppInit = path.join('', 'app_init.html')
 
 const _createWindow = async (
@@ -64,13 +64,17 @@ const _createWindow = async (
     y: !y
       ? bounds.y
       : y,
-    // icon: path.join(__dirname, '../build/icons/512x512.png'),
-    backgroundColor: '#172d3e',
-    show: false,
+    icon: path.join(__dirname, '../build/icon.png'),
+    // backgroundColor: '#172d3e',
+    show: true,
+    // webPreferences: {
+    //   preload: path.join(__dirname, '../build/preload.js'),
+    // },
     ...props
   }
 
   wins[winName] = new BrowserWindow(_props)
+
 
   logger.log('pathname: ', pathname);
   const startUrl = pathname
@@ -191,6 +195,7 @@ const _createChildWindow = async (
 // }
 
 const createLoadingWindow = async () => {
+  logger.log('createLoadingWindow: start');
   if (
     wins.loadingWindow &&
     typeof wins.loadingWindow === 'object' &&

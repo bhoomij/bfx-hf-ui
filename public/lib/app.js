@@ -21,7 +21,7 @@ let autoUpdater = _autoUpdater
 
 if(process.platform === 'darwin') {
   autoUpdater = new BfxMacUpdater()
-  logger.log('if autoUpdater: ', autoUpdater);
+  logger.log('if autoUpdater: 222');
   autoUpdater.addInstallingUpdateEventHandler(() => {
     logger.log('addInstallingUpdateEventHandler logger: ')
     return showLoadingWindow({
@@ -42,6 +42,7 @@ const CHECK_APP_UPDATES_EVERY_MS = 2 * 60 * 1000 // 30 min
 let appUpdatesIntervalRef = null
 module.exports = class HFUIApplication {
   static createWindow() {
+    logger.log('createWindow __dirname: ', __dirname);
     const win = new BrowserWindow({
       width: 1500,
       height: 850,
@@ -107,6 +108,7 @@ module.exports = class HFUIApplication {
     this.mainWindow.webContents.on('new-window', this.handleURLRedirect)
 
     ipcMain.on('app-closed', () => {
+      logger.log('app-closed: ');
       if(appUpdatesIntervalRef) {
         clearInterval(appUpdatesIntervalRef)
       }
@@ -115,8 +117,12 @@ module.exports = class HFUIApplication {
     })
 
     ipcMain.on('restart_app', () => {
-      autoUpdater.quitAndInstall();
-      this.app.exit();
+      logger.log('inside restart_app: ');
+      // this.mainWindow.webContents.send('app-close')
+      autoUpdater.quitAndInstall(false, true);
+      // window.electronService.sendAppClosedEvent()
+      // this.mainWindow.webContents.send('app-closed')
+      // this.app.quit();
     });
 
     ipcMain.on('clear_app_update_timer', () => {
@@ -151,7 +157,7 @@ module.exports = class HFUIApplication {
           return
         }
 
-        isProgressToastEnabled = false
+        // isProgressToastEnabled = false
 
         await hideLoadingWindow({ isRequiredToShowMainWin: false })
 
@@ -165,7 +171,7 @@ module.exports = class HFUIApplication {
         //   timer: 60000
         // })
       } catch (err) {
-        console.log('err: again: ', err);
+        logger.log('err: again: ', err);
         console.error(err)
       }
     })
@@ -177,25 +183,28 @@ module.exports = class HFUIApplication {
   }
 
   async onReady() {
-
     protocol.interceptFileProtocol('file', (request, callback) => {
       const fileURL = request.url.substr(7) // all urls start with 'file://'
-      console.log('fileURL: ', fileURL);
+      // logger.log('interceptFileProtocol: start', request.url);
+      // logger.log('fileURL: ', fileURL);
+      // logger.log('__dirname: 23: ', __dirname);
       const pathfinal = path.normalize(`${__dirname}/../${fileURL}`)
-      console.log('pathfinal: ', pathfinal);
+      logger.log('pathfinal: ', pathfinal);
       callback({ path: pathfinal })
     }, (err) => {
       if (err) {
-        console.error('Failed to register protocol')
+        logger.error('Failed to register protocol')
       }
     })
 
-    logger.log('between spawnMainWindow')
+
+    logger.log('before enforceMacOSAppLocation')
     await enforceMacOSAppLocation()
+    logger.log('after enforceMacOSAppLocation')
 
-    Menu.setApplicationMenu(Menu.buildFromTemplate(appMenuTemplate(this.app)))
+    // Menu.setApplicationMenu(Menu.buildFromTemplate(appMenuTemplate(this.app)))
 
-
+    // await hideLoadingWindow({ isRequiredToShowMainWin: true })
 
     this.spawnMainWindow()
   }
@@ -212,6 +221,7 @@ module.exports = class HFUIApplication {
   }
 
   onAllWindowsClosed() {
+    logger.log('onAllWindowsClosed: ');
     this.onExitCB()
     this.app.quit()
   }
