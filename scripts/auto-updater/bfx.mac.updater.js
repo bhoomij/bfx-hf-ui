@@ -60,8 +60,12 @@ class BfxMacUpdater extends MacUpdater {
       const productName = 'The Honey Framework'
       const exec = path.join(root, 'Contents/MacOS/' + productName)
       this._logger.log('exec: ', exec);
+      this._logger.log('root: ', root);
+      this._logger.log('dist: ', dist);
 
       await fs.promises.rmdir(root, { recursive: true })
+
+      this._logger.log('after rmdir: ');
 
       await extract(
         downloadedFilePath,
@@ -71,7 +75,6 @@ class BfxMacUpdater extends MacUpdater {
           defaultFileMode: '0o777'
         }
       )
-      this._logger.log('dist: ', dist);
 
       this._logger.log('after extract: ');
 
@@ -90,8 +93,8 @@ class BfxMacUpdater extends MacUpdater {
       this._logger.log('after spawn')
       return true
     } catch (err) {
-      this.dispatchError(err)
-      this._logger.log('error catch: ', err);
+      // this.dispatchError(err)
+      this._logger.log('error catch: 2: ', err);
 
       return false
     }
