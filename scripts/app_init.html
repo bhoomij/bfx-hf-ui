@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <!-- <link rel="shortcut icon" href="../../bfx-report-ui/build/favicon.ico"> -->
   <!-- <link href="../../bfx-report-ui/build/fonts/roboto.css" rel="stylesheet"> -->
-  <title>The Honey Framework</title>
+  <title>The Honey Framework UI</title>
   <style>
     html {
       height: 100%;
@@ -223,7 +223,8 @@
     const logger = require('electron-log')
 
     // logger.log('window.electronService: ', window.electronService);
-    window.electronService.addLoadingDescEventListener((event, description) => {
+    // window.electronService.addLoadingDescEventListener((event, description) => {
+    ipcRenderer.on('loading:description', (event, description) => {
       try {
         logger.log('addLoadingDescEventListener: cb', description);
         if (typeof description !== 'string') {
@@ -236,13 +237,13 @@
           ? 'block'
           : 'none'
 
-        window.electronService.sendLoadingDescReadyEvent('')
-        // ipcRenderer.send('loading:description-ready')
+        // window.electronService.sendLoadingDescReadyEvent('')
+        ipcRenderer.send('loading:description-ready')
       } catch (err) {
         console.error(err)
 
-        window.electronService.sendLoadingDescReadyEvent(err)
-        // ipcRenderer.send('loading:description-ready', err)
+        // window.electronService.sendLoadingDescReadyEvent(err)
+        ipcRenderer.send('loading:description-ready', err)
       }
     })
   })

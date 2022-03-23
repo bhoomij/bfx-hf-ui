@@ -73,6 +73,7 @@ class BfxMacUpdater extends MacUpdater {
       )
 
       if (!isForceRunAfter) {
+        console.log('if: end');
         return true
       }
 
