@@ -204,7 +204,7 @@ module.exports = class HFUIApplication {
 
     // Menu.setApplicationMenu(Menu.buildFromTemplate(appMenuTemplate(this.app)))
 
-    await hideLoadingWindow({ isRequiredToShowMainWin: true })
+    // await hideLoadingWindow({ isRequiredToShowMainWin: true })
 
     this.spawnMainWindow()
   }
