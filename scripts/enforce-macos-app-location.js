@@ -9,7 +9,7 @@ const {
 module.exports = async () => {
   console.log('process.env.NODE_ENV: ', process.env.NODE_ENV);
   if (
-    process.env.NODE_ENV === 'development'
+    process.env.NODE_ENV === 'development1'
     || process.platform !== 'darwin'
   ) {
     return
@@ -42,23 +42,23 @@ module.exports = async () => {
     isIndeterminateMode: true,
   })
 
-  app.moveToApplicationsFolder({
-    conflictHandler: (conflict) => {
-      if (conflict === 'existsAndRunning') {
-        dialog.showMessageBoxSync({
-          type: 'error',
-          message: `Another version of ${productName} is currently running. Quit it, then launch this version of the app again.`,
-          buttons: [
-            'OK',
-          ],
-        })
+  // app.moveToApplicationsFolder({
+  //   conflictHandler: (conflict) => {
+  //     if (conflict === 'existsAndRunning') {
+  //       dialog.showMessageBoxSync({
+  //         type: 'error',
+  //         message: `Another version of ${productName} is currently running. Quit it, then launch this version of the app again.`,
+  //         buttons: [
+  //           'OK',
+  //         ],
+  //       })
 
-        app.quit()
-      }
+  //       app.quit()
+  //     }
 
-      return true
-    },
-  })
+  //     return true
+  //   },
+  // })
 
-  await hideLoadingWindow()
+  // await hideLoadingWindow()
 }
