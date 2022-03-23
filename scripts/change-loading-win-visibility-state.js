@@ -132,7 +132,6 @@ const _setLoadingDescription = (win, description) => {
       // logger.log('win: ', win);
       // logger.log('win.webContents: before: ', win.webContents);
       logger.log('win.webContents: before: 1');
-      // wins.webContents.openDevTools()
       win.webContents.send(
         'loading:description',
         description,
