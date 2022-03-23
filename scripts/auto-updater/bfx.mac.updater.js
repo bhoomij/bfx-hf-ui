@@ -34,7 +34,7 @@ class BfxMacUpdater extends MacUpdater {
   }
 
   async install (isSilent, isForceRunAfter) {
-    this._logger.infor('install: inside: ', isSilent, isForceRunAfter);
+    this._logger.info('install: inside: ', isSilent, isForceRunAfter);
     try {
       if (this.quitAndInstallCalled) {
         this._logger.warn('Install call ignored: quitAndInstallCalled is set to true')
