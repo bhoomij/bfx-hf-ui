@@ -71,12 +71,15 @@ class BfxMacUpdater extends MacUpdater {
           defaultFileMode: '0o777'
         }
       )
+      this._logger.log('dist: ', dist);
+
+      this._logger.log('after extract: ');
 
       if (!isForceRunAfter) {
         console.log('if: end');
         return true
       }
-
+      this._logger.log('before spawn')
       spawn(exec, [], {
         detached: true,
         stdio: 'ignore',
@@ -84,10 +87,11 @@ class BfxMacUpdater extends MacUpdater {
           ...process.env
         }
       }).unref()
-
+      this._logger.log('after spawn')
       return true
     } catch (err) {
       this.dispatchError(err)
+      this._logger.log('error catch: ', err);
 
       return false
     }
