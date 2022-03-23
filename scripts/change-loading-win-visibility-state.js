@@ -151,58 +151,64 @@ const _setLoadingDescription = (win, description) => {
 }
 
 const showLoadingWindow = async (opts = {}) => {
-  logger.log('showLoadingWindow: ', opts);
-  const {
-    description = '',
-    isRequiredToCloseAllWins = false,
-    isNotRunProgressLoaderRequired = false,
-    isIndeterminateMode = false,
-    noParent = false,
-  } = { ...opts }
 
-  if (isRequiredToCloseAllWins) {
-    logger.log('if: 111');
-    _closeAllWindows()
+  try {
+    logger.log('showLoadingWindow: ', opts);
+    const {
+      description = '',
+      isRequiredToCloseAllWins = false,
+      isNotRunProgressLoaderRequired = false,
+      isIndeterminateMode = false,
+      noParent = false,
+    } = { ...opts }
+
+    if (isRequiredToCloseAllWins) {
+      logger.log('if: 111');
+      _closeAllWindows()
+    }
+    logger.log('wins.loadingWindow: ', wins.loadingWindow);
+    logger.log('wins.loadingWindow.isDestroyed(): ', wins?.loadingWindow?.isDestroyed());
+    if (
+      !wins.loadingWindow
+      || typeof wins.loadingWindow !== 'object'
+      || wins.loadingWindow.isDestroyed()
+    ) {
+      logger.log('if: 222');
+      await require('./window-creators')
+      .createLoadingWindow()
+    } else {
+      logger.log('else: 222');
+    }
+
+    logger.log('_setParentWindow here');
+    _setParentWindow(isRequiredToCloseAllWins || noParent)
+
+    if (!isNotRunProgressLoaderRequired) {
+      logger.log('if: 333');
+      _runProgressLoader({ isIndeterminateMode })
+    } else {
+      logger.log('else: 333');
+    }
+
+    logger.log('_setLoadingDescription: ', wins.loadingWindow);
+    await _setLoadingDescription(
+      wins.loadingWindow,
+      description,
+    )
+
+    logger.log('wins.loadingWindow.isVisible(): ', wins.loadingWindow.isVisible());
+    if (wins.loadingWindow.isVisible()) {
+      return
+    }
+
+    centerWindow(wins.loadingWindow)
+
+    logger.log('showWindow: last');
+    return showWindow(wins.loadingWindow)
+
+  } catch (err) {
+    logger.log('error is here: ', err)
   }
-  logger.log('wins.loadingWindow: ', wins.loadingWindow);
-  logger.log('wins.loadingWindow.isDestroyed(): ', wins?.loadingWindow?.isDestroyed());
-  if (
-    !wins.loadingWindow
-    || typeof wins.loadingWindow !== 'object'
-    || wins.loadingWindow.isDestroyed()
-  ) {
-    logger.log('if: 222');
-    await require('./window-creators')
-    .createLoadingWindow()
-  } else {
-    logger.log('else: 222');
-  }
-
-  logger.log('_setParentWindow here');
-  _setParentWindow(isRequiredToCloseAllWins || noParent)
-
-  if (!isNotRunProgressLoaderRequired) {
-    logger.log('if: 333');
-    _runProgressLoader({ isIndeterminateMode })
-  } else {
-    logger.log('else: 333');
-  }
-
-  logger.log('_setLoadingDescription: ', wins.loadingWindow);
-  await _setLoadingDescription(
-    wins.loadingWindow,
-    description,
-  )
-
-  logger.log('wins.loadingWindow.isVisible(): ', wins.loadingWindow.isVisible());
-  if (wins.loadingWindow.isVisible()) {
-    return
-  }
-
-  centerWindow(wins.loadingWindow)
-
-  logger.log('showWindow: last');
-  return showWindow(wins.loadingWindow)
 }
 
 const hideLoadingWindow = async (opts = {}) => {
