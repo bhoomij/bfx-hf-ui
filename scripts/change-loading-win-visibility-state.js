@@ -130,11 +130,18 @@ const _setLoadingDescription = (win, description) => {
       // logger.log('win.electronService: 1 2 3: ', window);
       // logger.log('win.electronService: 4 5 6: ', window && window.electronService);
       // logger.log('win: ', win);
-      logger.log('win.webContents: before: ', win.webContents);
-      // win.webContents.send(
-      //   'loading:description',
-      //   description,
-      // )
+      // logger.log('win.webContents: before: ', win.webContents);
+      logger.log('win.webContents: before: 1');
+      win.webContents.send(
+        'loading:description',
+        description,
+      )
+      logger.log('win.webContents: before: 2');
+      win.webContents.mainFrame.__send(
+        'loading:description',
+        description,
+      )
+      logger.log('win.webContents: before: 3');
     } catch (err) {
       logger.error(err)
 
