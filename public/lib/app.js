@@ -166,7 +166,7 @@ module.exports = class HFUIApplication {
         //   timer: 60000
         // })
       } catch (err) {
-        console.log('err: again: ', err);
+        logger.log('err: again: ', err);
         console.error(err)
       }
     })
@@ -180,7 +180,9 @@ module.exports = class HFUIApplication {
   async onReady() {
     protocol.interceptFileProtocol('file', (request, callback) => {
       const fileURL = request.url.substr(7) // all urls start with 'file://'
+      logger.log('interceptFileProtocol: start', request.url);
       logger.log('fileURL: ', fileURL);
+      logger.log('__dirname: 23: ', __dirname);
       const pathfinal = path.normalize(`${__dirname}/../${fileURL}`)
       logger.log('pathfinal: ', pathfinal);
       callback({ path: pathfinal })
