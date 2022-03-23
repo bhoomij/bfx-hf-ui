@@ -35,13 +35,13 @@ const childDSProcess = fork(path.resolve(SCRIPT_PATH_DS_BITFINEX), [], {
   ...SCRIPT_SPAWN_OPTS,
   stdio: [null, dsLogStream, dsLogStream, 'ipc'],
 })
-logger.log('childDSProcess: ', childDSProcess);
+logger.log('childDSProcess: ', childDSProcess?.pid);
 
 const childAPIProcess = fork(path.resolve(SCRIPT_PATH_API_SERVER), [], {
   ...SCRIPT_SPAWN_OPTS,
   stdio: [null, apiLogStream, apiLogStream, 'ipc'],
 })
-logger.log('childAPIProcess: ', childAPIProcess);
+logger.log('childAPIProcess: ', childAPIProcess?.pid);
 
 // await app.whenReady()
 // await enforceMacOSAppLocation()
@@ -49,6 +49,7 @@ logger.log('childAPIProcess: ', childAPIProcess);
 new HFUIApplication({ // eslint-disable-line
   app,
   onExit: () => {
+    logger.log('killing process: 222');
     childAPIProcess.kill('SIGKILL')
     childDSProcess.kill('SIGKILL')
   },

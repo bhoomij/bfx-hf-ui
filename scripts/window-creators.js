@@ -98,6 +98,7 @@ const _createWindow = async (
       ipcs.serverIpc &&
       typeof ipcs.serverIpc === 'object'
     ) {
+      logger.log('killing process: 111');
       ipcs.serverIpc.kill('SIGINT')
     }
   })
