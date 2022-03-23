@@ -127,7 +127,8 @@ const _setLoadingDescription = (win, description) => {
         resolve()
       })
 
-      logger.log('win.electronService: 1 2 3: ', window?.electronService);
+      logger.log('win.electronService: 1 2 3: ', window);
+      logger.log('win.electronService: 4 5 6: ', window && window.electronService);
       // logger.log('win: ', win);
       win.webContents.send(
         'loading:description',
