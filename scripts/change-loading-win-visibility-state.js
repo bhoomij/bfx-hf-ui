@@ -191,10 +191,12 @@ const showLoadingWindow = async (opts = {}) => {
     }
 
     logger.log('_setLoadingDescription: ', wins.loadingWindow);
+    logger.infor('_setLoadingDescription before: ');
     await _setLoadingDescription(
       wins.loadingWindow,
       description,
     )
+    logger.infor('_setLoadingDescription end: ');
 
     logger.log('wins.loadingWindow.isVisible(): ', wins.loadingWindow.isVisible());
     if (wins.loadingWindow.isVisible()) {

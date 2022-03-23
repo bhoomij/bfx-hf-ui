@@ -49,6 +49,7 @@ const showWindow = (win) => {
 }
 
 const centerWindow = (win, workArea) => {
+  console.log('centerWindow: 1 2')
   const screen = electron.screen || electron.remote.screen
   const {
     getCursorScreenPoint,
