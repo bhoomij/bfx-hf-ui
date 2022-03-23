@@ -137,10 +137,10 @@ const _setLoadingDescription = (win, description) => {
         description,
       )
       logger.log('win.webContents: before: 2');
-      win.webContents.mainFrame._send(
-        'loading:description',
-        description,
-      )
+      // win.webContents.mainFrame._send(
+      //   'loading:description',
+      //   description,
+      // )
       logger.log('win.webContents: before: 3');
     } catch (err) {
       logger.error(err)
