@@ -209,7 +209,7 @@
 <script>
   const logger = require('electron-log')
 
-  logger.log('script: window', !!window);
+  logger.info('script: window');
 
   window.addEventListener('load', () => {
     logger.log('window: load: ', window);
