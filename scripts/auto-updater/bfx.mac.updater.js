@@ -34,6 +34,7 @@ class BfxMacUpdater extends MacUpdater {
   }
 
   async install (isSilent, isForceRunAfter) {
+    this._logger.infor('install: inside: ', isSilent, isForceRunAfter);
     try {
       if (this.quitAndInstallCalled) {
         this._logger.warn('Install call ignored: quitAndInstallCalled is set to true')
@@ -49,9 +50,10 @@ class BfxMacUpdater extends MacUpdater {
         this._logger.log('if !isSilent: with dispatchInstallingUpdate');
         await this.dispatchInstallingUpdate()
       }
+      this._logger.log('after dispatchInstallingUpdate: ')
 
       const downloadedFilePath = this.getDownloadedFilePath()
-      this._logger.info('downloadedFilePath: ', downloadedFilePath);
+      this._logger.info('downloadedFilePath: in install: ', downloadedFilePath);
 
       const root = path.join(appDir, '../../..')
       const dist = path.join(root, '..')
@@ -99,6 +101,7 @@ class BfxMacUpdater extends MacUpdater {
         ? isForceRunAfter
         : true
     )
+    this._logger.info('after isInstalled: ', isInstalled)
     // const isInstalled = await this.install(
     //  true, true
     // )
@@ -114,14 +117,17 @@ class BfxMacUpdater extends MacUpdater {
 
   quitAndInstall (...args) {
     const downloadedFilePath = this.getDownloadedFilePath()
+    this._logger.info('quitAndInstall downloadedFilePath: ', downloadedFilePath);
 
     if (!fs.existsSync(downloadedFilePath)) {
       return
     }
     if (path.extname(downloadedFilePath) !== '.zip') {
+      this._logger.info('if: not zip', downloadedFilePath);
       return super.quitAndInstall(...args)
     }
 
+    this._logger.info('now calling asyncQuitAndInstall: ', args);
     return this.asyncQuitAndInstall(...args)
   }
 
