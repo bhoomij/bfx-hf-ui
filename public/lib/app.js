@@ -77,18 +77,6 @@ module.exports = class HFUIApplication {
     app.on('ready', this.onReady)
     app.on('window-all-closed', this.onAllWindowsClosed)
     app.on('activate', this.onActivate)
-
-    protocol.interceptFileProtocol('file', (request, callback) => {
-      const fileURL = request.url.substr(7) // all urls start with 'file://'
-      console.log('interceptFileProtocol fileURL: ', fileURL);
-      const pathfinal = path.normalize(`${__dirname}/../${fileURL}`)
-      console.log('pathfinal: ', pathfinal);
-      callback({ path: pathfinal })
-    }, (err) => {
-      if (err) {
-        console.error('Failed to register protocol')
-      }
-    })
   }
 
   spawnMainWindow() {
@@ -189,9 +177,19 @@ module.exports = class HFUIApplication {
     shell.openExternal(url)
   }
 
-
-
   async onReady() {
+    protocol.interceptFileProtocol('file', (request, callback) => {
+      const fileURL = request.url.substr(7) // all urls start with 'file://'
+      logger.log('fileURL: ', fileURL);
+      const pathfinal = path.normalize(`${__dirname}/../${fileURL}`)
+      logger.log('pathfinal: ', pathfinal);
+      callback({ path: pathfinal })
+    }, (err) => {
+      if (err) {
+        logger.error('Failed to register protocol')
+      }
+    })
+
 
     logger.log('between spawnMainWindow')
     await enforceMacOSAppLocation()
