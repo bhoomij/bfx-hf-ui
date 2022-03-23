@@ -108,6 +108,7 @@ module.exports = class HFUIApplication {
     this.mainWindow.webContents.on('new-window', this.handleURLRedirect)
 
     ipcMain.on('app-closed', () => {
+      logger.log('app-closed: ');
       if(appUpdatesIntervalRef) {
         clearInterval(appUpdatesIntervalRef)
       }
@@ -194,10 +195,11 @@ module.exports = class HFUIApplication {
     })
 
 
-    logger.log('between spawnMainWindow')
+    logger.log('before enforceMacOSAppLocation')
     await enforceMacOSAppLocation()
+    logger.log('after enforceMacOSAppLocation')
 
-    Menu.setApplicationMenu(Menu.buildFromTemplate(appMenuTemplate(this.app)))
+    // Menu.setApplicationMenu(Menu.buildFromTemplate(appMenuTemplate(this.app)))
 
     await hideLoadingWindow({ isRequiredToShowMainWin: true })
 
@@ -216,6 +218,7 @@ module.exports = class HFUIApplication {
   }
 
   onAllWindowsClosed() {
+    logger.log('onAllWindowsClosed: ');
     this.onExitCB()
     this.app.quit()
   }
