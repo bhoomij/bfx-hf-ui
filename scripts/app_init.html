@@ -209,9 +209,10 @@
 <script>
   console.log('123 456')
   try {
-  const logger = require('electron-log')
+  // const logger = require('electron-log')
+  const logger = console
 
-  logger.info('script: window');
+  logger.log('script: window');
 
   window.addEventListener('load', () => {
     logger.log('window: load: ', window);
