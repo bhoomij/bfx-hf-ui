@@ -75,7 +75,6 @@ const _createWindow = async (
 
   logger.log('path final: ', path.join(__dirname, '../build/icon.png'))
   wins[winName] = new BrowserWindow(_props)
-  wins[winName].webContents.openDevTools()
 
 
   logger.log('pathname: ', pathname);
