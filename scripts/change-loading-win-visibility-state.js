@@ -20,8 +20,6 @@ const _closeAllWindows = () => {
 }
 
 const _setParentWindow = (noParent) => {
-  logger.log('_setParentWindow: ', noParent);
-  logger.log('wins.loadingWindow.isFocused(): ', wins.loadingWindow.isFocused());
   if (wins.loadingWindow.isFocused()) {
     return
   }
@@ -119,7 +117,6 @@ const _setLoadingDescription = (win, description) => {
       }
 
       ipcMain.once('loading:description-ready', (event, err) => {
-        logger.log('ipcMain: got loading:description-ready');
         if (err) {
           logger.error(err)
         }
@@ -127,22 +124,10 @@ const _setLoadingDescription = (win, description) => {
         resolve()
       })
 
-      // logger.log('win.electronService: 1 2 3: ', window);
-      // logger.log('win.electronService: 4 5 6: ', window && window.electronService);
-      // logger.log('win: ', win);
-      // logger.log('win.webContents: before: ', win.webContents);
-      logger.log('win.webContents: before: 1');
       win.webContents.send(
         'loading:description',
         description,
       )
-      logger.log('win.webContents: before: 2');
-      // win.webContents.mainFrame._send(
-      //   'loading:description',
-      //   description,
-      // )
-      logger.log('win.webContents: removed test ref error');
-      // resolve()
     } catch (err) {
       logger.error(err)
 
@@ -154,7 +139,6 @@ const _setLoadingDescription = (win, description) => {
 const showLoadingWindow = async (opts = {}) => {
 
   try {
-    logger.log('showLoadingWindow: ', opts);
     const {
       description = '',
       isRequiredToCloseAllWins = false,
@@ -164,53 +148,39 @@ const showLoadingWindow = async (opts = {}) => {
     } = { ...opts }
 
     if (isRequiredToCloseAllWins) {
-      logger.log('if: 111');
       _closeAllWindows()
     }
-    logger.log('wins.loadingWindow: ', wins.loadingWindow);
-    logger.log('wins.loadingWindow.isDestroyed(): ', wins?.loadingWindow?.isDestroyed());
+
     if (
       !wins.loadingWindow
       || typeof wins.loadingWindow !== 'object'
       || wins.loadingWindow.isDestroyed()
     ) {
-      logger.log('if: 222');
       await require('./window-creators')
       .createLoadingWindow()
-    } else {
-      logger.log('else: 222');
     }
 
-    logger.log('_setParentWindow here');
     _setParentWindow(isRequiredToCloseAllWins || noParent)
 
     if (!isNotRunProgressLoaderRequired) {
-      logger.log('if: 333');
       _runProgressLoader({ isIndeterminateMode })
-    } else {
-      logger.log('else: 333');
     }
 
-    logger.log('_setLoadingDescription: ', wins.loadingWindow);
-    logger.info('_setLoadingDescription before: ');
     await _setLoadingDescription(
       wins.loadingWindow,
       description,
     )
-    logger.info('_setLoadingDescription end: ');
 
-    logger.log('wins.loadingWindow.isVisible(): ', wins.loadingWindow.isVisible());
     if (wins.loadingWindow.isVisible()) {
       return
     }
 
     centerWindow(wins.loadingWindow)
 
-    logger.log('showWindow: last');
     return showWindow(wins.loadingWindow)
 
   } catch (err) {
-    logger.log('error is here: ', err)
+    logger.error('showLoadingWindow error: ', err)
   }
 }
 
@@ -218,7 +188,6 @@ const hideLoadingWindow = async (opts = {}) => {
   const {
     isRequiredToShowMainWin = false,
   } = { ...opts }
-  logger.log('hideLoadingWindow: ', opts);
 
   if (isRequiredToShowMainWin) {
     await showWindow(wins.mainWindow)

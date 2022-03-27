@@ -21,9 +21,7 @@ let autoUpdater = _autoUpdater
 
 if(process.platform === 'darwin') {
   autoUpdater = new BfxMacUpdater()
-  logger.log('if autoUpdater: 222');
   autoUpdater.addInstallingUpdateEventHandler(() => {
-    logger.log('addInstallingUpdateEventHandler logger: ')
     return showLoadingWindow({
       description: 'Updating...',
       isRequiredToCloseAllWins: true
@@ -33,16 +31,12 @@ if(process.platform === 'darwin') {
 
 autoUpdater.logger = logger
 autoUpdater.logger["transports"].file.level = "info"
-logger.log('process.platform: ', process.platform);
-
-const appMenuTemplate = require('./app_menu_template')
 
 // TODO: set 30 min
 const CHECK_APP_UPDATES_EVERY_MS = 2 * 60 * 1000 // 30 min
 let appUpdatesIntervalRef = null
 module.exports = class HFUIApplication {
   static createWindow() {
-    logger.log('createWindow __dirname: ', __dirname);
     const win = new BrowserWindow({
       width: 1500,
       height: 850,
@@ -94,21 +88,17 @@ module.exports = class HFUIApplication {
     })
 
     this.mainWindow.once('ready-to-show', () => {
-      logger.log('ready-to-show: ');
       // if (process.platform !== 'darwin') {
       autoUpdater.checkForUpdatesAndNotify();
       appUpdatesIntervalRef = setInterval(() => {
-        logger.log('checking inside interval: ');
         autoUpdater.checkForUpdatesAndNotify();
       }, CHECK_APP_UPDATES_EVERY_MS);
-      // logger.info('appUpdatesIntervalRef: set: ', appUpdatesIntervalRef);
       // }
     });
 
     this.mainWindow.webContents.on('new-window', this.handleURLRedirect)
 
     ipcMain.on('app-closed', () => {
-      logger.log('app-closed: ');
       if(appUpdatesIntervalRef) {
         clearInterval(appUpdatesIntervalRef)
       }
@@ -117,12 +107,7 @@ module.exports = class HFUIApplication {
     })
 
     ipcMain.on('restart_app', () => {
-      logger.log('inside restart_app: ');
-      // this.mainWindow.webContents.send('app-close')
       autoUpdater.quitAndInstall(false, true);
-      // window.electronService.sendAppClosedEvent()
-      // this.mainWindow.webContents.send('app-closed')
-      // this.app.quit();
     });
 
     ipcMain.on('clear_app_update_timer', () => {
@@ -140,7 +125,6 @@ module.exports = class HFUIApplication {
         version,
         downloadedFile
       } = { ...info }
-      logger.log('update-downloaded downloadedFile: ', downloadedFile);
       if (autoUpdater instanceof BfxMacUpdater) {
         autoUpdater.setDownloadedFilePath(downloadedFile)
       }
@@ -150,29 +134,15 @@ module.exports = class HFUIApplication {
 
     autoUpdater.on('error', async (err) => {
       try {
-        logger.log('err: 1: ', err)
         // Skip error when can't get code signature on mac
         if (/Could not get code signature/gi.test(err.toString())) {
-          logger.log('autoUpdater error: if return')
           return
         }
 
-        // isProgressToastEnabled = false
-
         await hideLoadingWindow({ isRequiredToShowMainWin: false })
 
-        // _switchMenuItem({
-        //   isCheckMenuItemDisabled: false,
-        //   isInstallMenuItemVisible: false
-        // })
-        // await _fireToast({
-        //   title: 'Application update failed',
-        //   type: 'error',
-        //   timer: 60000
-        // })
       } catch (err) {
-        logger.log('err: again: ', err);
-        console.error(err)
+        logger.error('autoUpdater error: ', err)
       }
     })
   }
@@ -185,11 +155,7 @@ module.exports = class HFUIApplication {
   async onReady() {
     protocol.interceptFileProtocol('file', (request, callback) => {
       const fileURL = request.url.substr(7) // all urls start with 'file://'
-      // logger.log('interceptFileProtocol: start', request.url);
-      // logger.log('fileURL: ', fileURL);
-      // logger.log('__dirname: 23: ', __dirname);
       const pathfinal = path.normalize(`${__dirname}/../${fileURL}`)
-      logger.log('pathfinal: ', pathfinal);
       callback({ path: pathfinal })
     }, (err) => {
       if (err) {
@@ -197,22 +163,12 @@ module.exports = class HFUIApplication {
       }
     })
 
-
-    logger.log('before enforceMacOSAppLocation')
     await enforceMacOSAppLocation()
-    logger.log('after enforceMacOSAppLocation')
-
-    // Menu.setApplicationMenu(Menu.buildFromTemplate(appMenuTemplate(this.app)))
-
-    // await hideLoadingWindow({ isRequiredToShowMainWin: true })
 
     this.spawnMainWindow()
   }
 
   async onActivate() {
-    logger.log('onActivate: ');
-    logger.log('enforceMacOSAppLocation: 123');
-    // await enforceMacOSAppLocation()
     this.spawnMainWindow()
   }
 
@@ -221,7 +177,6 @@ module.exports = class HFUIApplication {
   }
 
   onAllWindowsClosed() {
-    logger.log('onAllWindowsClosed: ');
     this.onExitCB()
     this.app.quit()
   }

@@ -47,10 +47,8 @@ class BfxMacUpdater extends MacUpdater {
       this._logger.info(`Install: isSilent: ${isSilent}, isForceRunAfter: ${isForceRunAfter}`)
 
       if (!isSilent) {
-        this._logger.log('if !isSilent: with dispatchInstallingUpdate');
         await this.dispatchInstallingUpdate()
       }
-      this._logger.log('after dispatchInstallingUpdate: ')
 
       const downloadedFilePath = this.getDownloadedFilePath()
       this._logger.info('downloadedFilePath: in install: ', downloadedFilePath);
@@ -59,13 +57,9 @@ class BfxMacUpdater extends MacUpdater {
       const dist = path.join(root, '..')
       const productName = 'The Honey Framework'
       const exec = path.join(root, 'Contents/MacOS/' + productName)
-      this._logger.log('exec: ', exec);
-      this._logger.log('root: ', root);
-      this._logger.log('dist: ', dist);
 
-      await fs.promises.rmdir(root, { recursive: true, force: true }, (...rest) => this._logger.log('rest: ', rest))
+      await fs.promises.rmdir(root, { recursive: true, force: true })
 
-      this._logger.log('after rmdir: ');
 
       await extract(
         downloadedFilePath,
@@ -76,13 +70,10 @@ class BfxMacUpdater extends MacUpdater {
         }
       )
 
-      this._logger.log('after extract: ');
-
       if (!isForceRunAfter) {
-        console.log('if: end');
         return true
       }
-      this._logger.log('before spawn')
+
       spawn(exec, [], {
         detached: true,
         stdio: 'ignore',
@@ -90,11 +81,9 @@ class BfxMacUpdater extends MacUpdater {
           ...process.env
         }
       }).unref()
-      this._logger.log('after spawn')
       return true
     } catch (err) {
       // this.dispatchError(err)
-      this._logger.log('error catch: 2: ', err);
 
       return false
     }

@@ -20,11 +20,6 @@ const {
   centerWindow
 } = require('./helpers/manage-window')
 
-// const publicDir = path.join(__dirname, '../build')
-// const loadURL = serve({ directory: publicDir })
-
-logger.log('__dirname: __dirname: ', __dirname);
-// const pathToLayouts = path.join(__dirname, 'layouts')
 const pathToLayoutAppInit = path.join('', 'app_init.html')
 
 const _createWindow = async (
@@ -73,11 +68,8 @@ const _createWindow = async (
     ...props
   }
 
-  logger.log('path final: ', path.join(__dirname, '../build/icon.png'))
   wins[winName] = new BrowserWindow(_props)
 
-
-  logger.log('pathname: ', pathname);
   const startUrl = pathname
   ? url.format({
     pathname,
@@ -85,9 +77,7 @@ const _createWindow = async (
     slashes: true
   })
   : 'app://-'
-  logger.log('startUrl: ', startUrl);
 
-    logger.log('pathname: 111: ', pathname);
   if (!pathname) {
     await loadURL(wins[winName])
   }
@@ -99,7 +89,6 @@ const _createWindow = async (
       ipcs.serverIpc &&
       typeof ipcs.serverIpc === 'object'
     ) {
-      logger.log('killing process: 111');
       ipcs.serverIpc.kill('SIGINT')
     }
   })
@@ -113,7 +102,6 @@ const _createWindow = async (
     win: wins[winName]
   }
 
-  logger.log('pathname: ', pathname);
   if (!pathname) {
     await createLoadingWindow()
 
@@ -197,21 +185,17 @@ const _createChildWindow = async (
 // }
 
 const createLoadingWindow = async () => {
-  logger.log('createLoadingWindow: start');
   if (
     wins.loadingWindow &&
     typeof wins.loadingWindow === 'object' &&
     !wins.loadingWindow.isDestroyed() &&
     !wins.loadingWindow.isVisible()
   ) {
-    logger.log('showLoadingWindow: if');
     await showLoadingWindow()
 
     return {}
   }
-  logger.log('showLoadingWindow: else');
 
-  logger.log('pathToLayoutAppInit: ', pathToLayoutAppInit);
   const winProps = await _createChildWindow(
     pathToLayoutAppInit,
     'loadingWindow',
@@ -227,21 +211,6 @@ const createLoadingWindow = async () => {
 
   return winProps
 }
-
-// const createErrorWindow = async (pathname) => {
-//   const winProps = await _createChildWindow(
-//     pathname,
-//     'errorWindow',
-//     {
-//       height: 200,
-//       frame: true
-//     }
-//   )
-
-//   await hideLoadingWindow()
-
-//   return winProps
-// }
 
 module.exports = {
   createLoadingWindow
