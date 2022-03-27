@@ -3,6 +3,7 @@ const path = require('path')
 const {
   BrowserWindow, protocol, Menu, shell, ipcMain,
 } = require('electron') // eslint-disable-line
+const appMenuTemplate = require('./app_menu_template')
 const { autoUpdater: _autoUpdater } = require('electron-updater')
 const logger = require('electron-log')
 const enforceMacOSAppLocation = require(
@@ -161,6 +162,8 @@ module.exports = class HFUIApplication {
     })
 
     await enforceMacOSAppLocation()
+
+    Menu.setApplicationMenu(Menu.buildFromTemplate(appMenuTemplate(this.app)))
 
     this.spawnMainWindow()
   }
