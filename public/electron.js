@@ -11,6 +11,10 @@ const {
   SCRIPT_PATH_API_SERVER,
   LOCAL_STORE_CWD
 } = require('./constants')
+const logger = require('electron-log')
+// const enforceMacOSAppLocation = require(
+//   '../scripts/enforce-macos-app-location'
+// )
 
 const REQUIRED_PATHS = [LOCAL_STORE_CWD, LOG_PATH]
 
