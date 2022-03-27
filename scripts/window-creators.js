@@ -60,7 +60,7 @@ const _createWindow = async (
       ? bounds.y
       : y,
     icon: path.join(__dirname, '../build/icon.png'),
-    // backgroundColor: '#172d3e',
+    backgroundColor: '#172d3e',
     show: true,
     // webPreferences: {
     //   preload: path.join(__dirname, '../build/preload.js'),
