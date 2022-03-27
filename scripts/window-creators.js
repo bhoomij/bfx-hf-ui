@@ -160,30 +160,6 @@ const _createChildWindow = async (
   return winProps
 }
 
-// const createMainWindow = async ({
-//   pathToUserData,
-//   pathToUserDocuments
-// }) => {
-//   const winProps = await _createWindow()
-//   const {
-//     win,
-//     manage,
-//     isMaximized
-//   } = winProps
-
-//   if (isDevEnv) {
-//     wins.mainWindow.webContents.openDevTools()
-//   }
-
-//   createMenu({ pathToUserData, pathToUserDocuments })
-
-//   appStates.isMainWinMaximized = isMaximized
-
-//   manage(win)
-
-//   return winProps
-// }
-
 const createLoadingWindow = async () => {
   if (
     wins.loadingWindow &&

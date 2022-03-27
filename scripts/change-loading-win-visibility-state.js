@@ -118,7 +118,7 @@ const _setLoadingDescription = (win, description) => {
 
       ipcMain.once('loading:description-ready', (event, err) => {
         if (err) {
-          logger.error(err)
+          logger.error('loading:description-ready error: ', err)
         }
 
         resolve()
@@ -129,7 +129,7 @@ const _setLoadingDescription = (win, description) => {
         description,
       )
     } catch (err) {
-      logger.error(err)
+      logger.error('_setLoadingDescription error: ', err)
 
       resolve()
     }

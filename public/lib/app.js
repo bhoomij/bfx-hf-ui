@@ -15,7 +15,6 @@ const {
   showLoadingWindow,
   hideLoadingWindow,
 } = require('../../scripts/change-loading-win-visibility-state')
-// const {enforceMacOSAppLocation, is} = require('electron-util');
 
 let autoUpdater = _autoUpdater
 
@@ -88,12 +87,10 @@ module.exports = class HFUIApplication {
     })
 
     this.mainWindow.once('ready-to-show', () => {
-      // if (process.platform !== 'darwin') {
       autoUpdater.checkForUpdatesAndNotify();
       appUpdatesIntervalRef = setInterval(() => {
         autoUpdater.checkForUpdatesAndNotify();
       }, CHECK_APP_UPDATES_EVERY_MS);
-      // }
     });
 
     this.mainWindow.webContents.on('new-window', this.handleURLRedirect)

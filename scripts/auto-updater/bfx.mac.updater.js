@@ -34,24 +34,18 @@ class BfxMacUpdater extends MacUpdater {
   }
 
   async install (isSilent, isForceRunAfter) {
-    this._logger.info('install: inside: ', isSilent, isForceRunAfter);
     try {
       if (this.quitAndInstallCalled) {
-        this._logger.warn('Install call ignored: quitAndInstallCalled is set to true')
-
         return false
       }
 
       this.quitAndInstallCalled = true
-
-      this._logger.info(`Install: isSilent: ${isSilent}, isForceRunAfter: ${isForceRunAfter}`)
 
       if (!isSilent) {
         await this.dispatchInstallingUpdate()
       }
 
       const downloadedFilePath = this.getDownloadedFilePath()
-      this._logger.info('downloadedFilePath: in install: ', downloadedFilePath);
 
       const root = path.join(appDir, '../../..')
       const dist = path.join(root, '..')
@@ -90,18 +84,12 @@ class BfxMacUpdater extends MacUpdater {
   }
 
   async asyncQuitAndInstall (isSilent, isForceRunAfter) {
-    this._logger.info('Install on explicit quitAndInstall')
-
     const isInstalled = await this.install(
       isSilent,
       isSilent
         ? isForceRunAfter
         : true
     )
-    this._logger.info('after isInstalled: ', isInstalled)
-    // const isInstalled = await this.install(
-    //  true, true
-    // )
 
     if (isInstalled) {
       setImmediate(() => this.app.quit())
@@ -114,24 +102,20 @@ class BfxMacUpdater extends MacUpdater {
 
   quitAndInstall (...args) {
     const downloadedFilePath = this.getDownloadedFilePath()
-    this._logger.info('quitAndInstall downloadedFilePath: ', downloadedFilePath);
 
     if (!fs.existsSync(downloadedFilePath)) {
       return
     }
     if (path.extname(downloadedFilePath) !== '.zip') {
-      this._logger.info('if: not zip', downloadedFilePath);
       return super.quitAndInstall(...args)
     }
 
-    this._logger.info('now calling asyncQuitAndInstall: ', args);
     return this.asyncQuitAndInstall(...args)
   }
 
   async dispatchInstallingUpdate () {
     this.emit(this.EVENT_INSTALLING_UPDATE)
 
-    this._logger.info('this.installingUpdateEventHandlers: ', this.installingUpdateEventHandlers);
     for (const handler of this.installingUpdateEventHandlers) {
       if (typeof handler !== 'function') {
         return
@@ -162,20 +146,15 @@ class BfxMacUpdater extends MacUpdater {
         return
       }
 
-      this._logger.info(`Update will be not installed on quit because application is quitting with exit code ${exitCode}`)
     })
 
     // Need to use this.app.app prop due this.app is ElectronAppAdapter
     this.app.app.once('will-quit', (e) => {
       if (this.quitAndInstallCalled) {
-        this._logger.info('Update installer has already been triggered. Quitting application.')
-
         return
       }
 
       e.preventDefault()
-      this._logger.info('Auto install update on quit')
-
       this.install(true, true).then((isInstalled) => {
         if (isInstalled) {
           setImmediate(() => this.app.quit())
