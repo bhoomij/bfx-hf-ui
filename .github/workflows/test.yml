@@ -1,5 +1,7 @@
 name: Pull request verify workflow
 
+on: workflow_dispatch
+
 jobs:
   checks:
     runs-on: macos-latest
